@@ -1,11 +1,11 @@
-package Store;
+package Database;
 
-public class Results {
+public class Log {
     private String className;
     private Integer[] lines;
     private String error;
 
-    Results(String className, Integer[] lines, String error) {
+    Log(String className, Integer[] lines, String error) {
         this.className = className;
         this.lines = lines;
         this.error = error;
@@ -33,5 +33,13 @@ public class Results {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public String toString() {
+        return (
+                "Class: " + this.className + "\n" +
+                        "On Lines: " + this.lines[0] + " To " + this.lines[1] + "\n" +
+                                "Error: " + this.error.toString() + "\n"
+        );
     }
 }
