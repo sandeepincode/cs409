@@ -14,10 +14,10 @@ public class ClassVisitor extends VoidVisitorAdapter<Void> {
 //        System.out.println("++++++++++++++++++++++++++++++++++++++");
         System.out.println("    PackageDeclaration In ClassVisitor");
 
-        Integer[] array = new Integer[2];
-        array[0] = 1;
-        array[1] = 2;
-        this.db.dbPush("PackageDeclaration", array, "PLZ WORK");
+//        Integer[] array = new Integer[2];
+//        array[0] = 1;
+//        array[1] = 2;
+//        this.db.dbPush("PackageDeclaration", array, "PLZ WORK");
 
 
 //        System.out.println(n.toString());
@@ -30,10 +30,10 @@ public class ClassVisitor extends VoidVisitorAdapter<Void> {
 //        System.out.println("++++++++++++++++++++++++++++++++++++++");
         System.out.println("    FieldDeclaration In ClassVisitor");
 
-        Integer[] array = new Integer[2];
-        array[0] = 3;
-        array[1] = 4;
-        this.db.dbPush("FieldDeclaration", array, "PLZ WORK");
+//        Integer[] array = new Integer[2];
+//        array[0] = 3;
+//        array[1] = 4;
+//        this.db.dbPush("FieldDeclaration", array, "PLZ WORK");
 
 //        System.out.println(n.toString());
 //        System.out.println("--------------------------------------");

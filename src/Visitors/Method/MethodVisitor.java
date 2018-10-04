@@ -1,4 +1,5 @@
 package Visitors.Method;
+
 import Database.Database;
 import Detectors.Methods.LargeParamList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -9,24 +10,38 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
     private Database db;
     private LargeParamList paramCheck;
 
-    public MethodVisitor(Database db){
-        int PARAM_LIMIT = 5;
-        this.paramCheck = new LargeParamList(PARAM_LIMIT);
+    public MethodVisitor(Database db) {
         this.db = db;
+        int PARAM_LIMIT = 2;
+        this.paramCheck = new LargeParamList(PARAM_LIMIT);
     }
 
     @Override
     public void visit(MethodDeclaration n, Void arg) {
-        paramCheck.checkParamaterList(n.getParameters().size());
+        System.out.println("MethodDeclaration In MethodVisitor");
 
-        Integer[] array = new Integer[2];
-        array[0] = 12;
-        array[1] = 23;
-        this.db.dbPush("MethodDeclaration", array, "PLZ WORK bbbyyyy");
+        // Create a 2d array?
+        Integer[] lines = new Integer[2];
+
+        int paramCount = n.getParameters().size();
+        String className = n.get
+        String method = n.getNameAsString();
+        String error = "";
+
+        if (!paramCheck.checkParamaterList(paramCount)) {
+            error = "Too many parameters within this method: " + method;
+            lines[0] = 123;
+            lines[1] = 3554;
+            this.db.dbPush(
+                    className,
+                    lines,
+                    error,
+                    n.getParameters().toString()
+            );
+        }
 
 
 //        System.out.println("++++++++++++++++++++++++++++++++++");
-//        System.out.println("MethodDeclaration In MethodVisitor");
 //        System.out.println(n.toString());
 //        System.out.println("------------------------------------");
         super.visit(n, arg);

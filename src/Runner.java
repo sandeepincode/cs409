@@ -1,5 +1,6 @@
 import Database.Database;
 import Database.Log;
+import Util.Printer;
 import Visitors.Method.MethodVisitor;
 import Visitors.Class.ClassVisitor;
 
@@ -10,9 +11,11 @@ import java.io.FileInputStream;
 
 public class Runner {
     private static Database db;
+    private static Printer printer;
     public static void main(String[] args) throws Exception {
 
         db = new Database();
+        printer = new Printer();
 
         FileInputStream in = new FileInputStream("src/Mock/test.java");
         CompilationUnit cu = JavaParser.parse(in);
@@ -24,9 +27,6 @@ public class Runner {
         // How to print on completion?
         cu.accept(new ClassVisitor(db), null);
         cu.accept(new MethodVisitor(db), null);
-
-        for (Log E : db.dbPull()) {
-            System.out.println(E.toString());
-        }
+        printer.prettyPrint(db.dbPull());
     }
 }

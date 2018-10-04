@@ -9,12 +9,13 @@ public class Database {
         Db = new ArrayList<Log>();
     }
 
-    public boolean dbPush(String className, Integer[] lines, String error) {
-        if (!className.isEmpty() && lines.length == 2 && !error.isEmpty()) {
+    public boolean dbPush(String className, Integer[] lines, String error, String data) {
+        if (!className.isEmpty() && lines.length == 2 && !error.isEmpty() && !data.isEmpty()) {
             Db.add(new Log(
                     className,
                     lines,
-                    error
+                    error,
+                    data
             ));
             return true;
         }
