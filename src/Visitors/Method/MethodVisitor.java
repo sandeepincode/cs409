@@ -24,7 +24,7 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
         Integer[] lines = new Integer[2];
 
         int paramCount = n.getParameters().size();
-        String className = n.get
+        String className = "Test class name";
         String method = n.getNameAsString();
         String error = "";
 

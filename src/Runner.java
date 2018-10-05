@@ -22,9 +22,8 @@ public class Runner {
 //        cu.findAll(FieldDeclaration.class).stream()
 //                .filter(f -> f.isPublic() && !f.isStatic())
 //                .forEach(f -> System.out.println("Check field at line " +
-//                        f.getRange().map(r -> r.begin.line).orElse(-1)));
+//                        f.getRange().map(r -> r.begin.line).orElse(-1)))
 
-        // How to print on completion?
         cu.accept(new ClassVisitor(db), null);
         cu.accept(new MethodVisitor(db), null);
         printer.prettyPrint(db.dbPull());
