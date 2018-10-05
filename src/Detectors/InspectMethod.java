@@ -7,10 +7,11 @@ public class InspectMethod {
     private LargeParamList paramCount;
 
     private int LENGTH_LIMIT = 20;
-    private int PARAM_LIMIT = 4;
+    private int PARAM_LIMIT = 2;
 
     public InspectMethod () {
         this.length = new LargeMethod(this.LENGTH_LIMIT);
+        this.paramCount = new LargeParamList(this.PARAM_LIMIT);
     }
 
     public int getParamLimit() {

@@ -1,12 +1,13 @@
 package Database.Models;
+
 import java.util.ArrayList;
 import Database.Log;
-import com.github.javaparser.ast.Node;
+
 
 public class JavaFile {
 
     private ArrayList<Log> errorLog;
-    private ArrayList<Node> methods;
+    private ArrayList<Method> methods;
     private String className;
     private boolean isInterface;
     private int classLength;
@@ -55,17 +56,18 @@ public class JavaFile {
         this.errorLog.add(error);
     }
 
-    public ArrayList<Node> getMethods() {
+    public ArrayList<Method> getMethods() {
         return methods;
     }
 
-    public void addMethods(Node method) {
+    public void addMethods(Method method) {
         this.methods.add(method);
     }
 
+    // FINISH OFF //
     public String toString() {
         return (
-                    ""
-                );
+                ""
+        );
     }
 }

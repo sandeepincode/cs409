@@ -1,5 +1,6 @@
 import Database.Log;
 import Database.Models.JavaFile;
+import Database.Models.Method;
 import Detectors.InspectClass;
 import Detectors.InspectMethod;
 
@@ -36,33 +37,30 @@ public class TestSuite {
 
     public void runMethodTests() {
         String error;
-        String inspecting = "Method";
-
-        //////////////////////////////////////////////
-        // WE NEED TO DO A FOR EACH FOR EACH METHOD //
-        //////////////////////////////////////////////
-
-        if (!inspectMethod.length(this.javaFile.getClassLength())) {
-            error = "Bad news, looks like this method is too large, we recommend a limit of: " + inspectMethod.getLengthLimit();
-            this.javaFile.addErrorLog(
-                    new Log(
-                            this.javaFile.getClassName(),
-                            error,
-                            "",
-                            inspecting
-                    )
-            );
-        }
-        if (!inspectMethod.paramCount(this.javaFile.getClassLength())) {
-            error = "Bad news, looks like this method has too many parameters, we recommend a limit of: " + inspectMethod.getParamLimit();
-            this.javaFile.addErrorLog(
-                    new Log(
-                            this.javaFile.getClassName(),
-                            error,
-                            "",
-                            inspecting
-                    )
-            );
+        for (Method m : this.javaFile.getMethods()) {
+            String inspecting = "Method: " + m.getName();
+            if (!inspectMethod.length(m.getLength())) {
+                error = "Bad news, looks like this method is too large, we recommend a limit of: " + inspectMethod.getLengthLimit();
+                this.javaFile.addErrorLog(
+                        new Log(
+                                this.javaFile.getClassName(),
+                                error,
+                                "",
+                                inspecting
+                        )
+                );
+            }
+            if (!inspectMethod.paramCount(m.getParamaters().size())) {
+                error = "Bad news, looks like this method has too many parameters, we recommend a limit of: " + inspectMethod.getParamLimit();
+                this.javaFile.addErrorLog(
+                        new Log(
+                                this.javaFile.getClassName(),
+                                error,
+                                m.getParamaters().toString(),
+                                inspecting
+                        )
+                );
+            }
         }
     }
 }

@@ -1,8 +1,12 @@
 package Visitors.Method;
 
 import Database.Models.JavaFile;
+import Database.Models.Method;
 import Detectors.Methods.LargeParamList;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class MethodVisitor extends VoidVisitorAdapter<Void> {
@@ -18,8 +22,37 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
 
     @Override
     public void visit(MethodDeclaration n, Void arg) {
-//        System.out.println("MethodDeclaration In MethodVisitor");
+
+        String[] lines = n.toString().split("\r\n|\r|\n");
+        int length = lines.length;
+        String methodName = n.getNameAsString();
+        NodeList<Parameter> parameters = n.getParameters();
+
+        this.c.addMethods(
+                new Method(
+                        methodName,
+                        length,
+                        parameters
+                ));
+
+        super.visit(n, arg);
+
+//        System.out.println("+");
+//        System.out.println("Method Name: " + n.getNameAsString());
 //
+//        System.out.println("Parameters: " + n.getParameters());
+//        System.out.println("Parameters List: " + n.getParameters().toString());
+//
+//        System.out.println(n.getBody());
+//
+//
+//
+//        test.forEach(d -> System.out.println(d.getName()));
+//
+//        System.out.println("Method Length: " + lines.length);
+//        System.out.println("-");
+
+//        System.out.println("MethodDeclaration In MethodVisitor");
 //        // Create a 2d array?
 //        Integer[] lines = new Integer[2];
 //
@@ -27,23 +60,11 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
 //        String className = "Test class name";
 //        String method = n.getNameAsString();
 //        String error = "";
-//
-//        if (!paramCheck.checkParamaterList(paramCount)) {
-//            error = "Too many parameters within this method: " + method;
-//////            lines[0] = 123;
-//////            lines[1] = 3554;
-//            this.c.addErrorLog(new Log(
-//                    className,
-//                    lines,
-//                    error,
-//                    n.getParameters().toString()
-//            ));
-    // }
 
 
 //        System.out.println("++++++++++++++++++++++++++++++++++");
 //        System.out.println(n.toString());
 //        System.out.println("------------------------------------");
-        super.visit(n, arg);
+
     }
 }

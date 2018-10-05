@@ -38,18 +38,19 @@ public class Runner {
             cu.accept(new ClassVisitor(javaFile), null);
             cu.accept(new MethodVisitor(javaFile), null);
 
-            // Run tests internally to determine the results
+            // Run tests internally and create test suites to determine the results
             testSuite = new TestSuite(javaFile);
             testSuite.runClassTests();
             testSuite.runMethodTests();
 
-            // Push the class to a database
+            // Push the java file to a database
             db.dbPush(javaFile);
 
         }
 
         // Finally print linter results
-        System.out.println("d33p-lint says: ");
+        System.out.println("D33P-LINT: ");
+
         for (JavaFile cd : db.dbPull()) {
             System.out.println("=========================");
             System.out.println("    Class: " + cd.getClassName());
