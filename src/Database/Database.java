@@ -1,28 +1,24 @@
 package Database;
+import Database.Models.JavaFile;
 
 import java.util.ArrayList;
 
 public class Database {
-    private ArrayList<Log> Db;
+    private ArrayList<JavaFile> Db;
 
     public Database() {
-        Db = new ArrayList<Log>();
+        Db = new ArrayList<JavaFile>();
     }
 
-    public boolean dbPush(String className, Integer[] lines, String error, String data) {
-        if (!className.isEmpty() && lines.length == 2 && !error.isEmpty() && !data.isEmpty()) {
-            Db.add(new Log(
-                    className,
-                    lines,
-                    error,
-                    data
-            ));
+    public boolean dbPush(JavaFile c) {
+        if (c != null) {
+            Db.add(c);
             return true;
         }
         return false;
     }
 
-    public ArrayList<Log> dbPull() {
+    public ArrayList<JavaFile> dbPull() {
         return Db;
     }
 }

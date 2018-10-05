@@ -1,11 +1,12 @@
 package Mock;
+
+
 public class test {
 
     String name;
     int age;
     String designation;
     double salary;
-
     // This is the constructor of the class Employee
     public test(String name) {
         this.name = name;

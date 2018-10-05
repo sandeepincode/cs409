@@ -4,7 +4,7 @@ public class LargeParamList {
     public LargeParamList(int LIMIT) {
         this.LIMIT = LIMIT;
     }
-    public boolean checkParamaterList (int paramCount) {
+    public boolean validate (int paramCount) {
         if (paramCount > this.LIMIT) {
             return false;
         }

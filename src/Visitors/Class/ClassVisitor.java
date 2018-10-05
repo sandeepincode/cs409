@@ -1,45 +1,39 @@
 package Visitors.Class;
 
-import Database.Database;
+import Database.Models.JavaFile;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 public class ClassVisitor extends VoidVisitorAdapter<Void> {
 
-    private Database db;
-    public ClassVisitor(Database db) {
-        this.db = db;
+    private JavaFile c;
+
+    public ClassVisitor(JavaFile c) {
+        this.c = c;
     }
-    private String className = "NOT SET YET";
 
     @Override
     public void visit(PackageDeclaration n, Void arg) {
-//        System.out.println("++++++++++++++++++++++++++++++++++++++");
-        // System.out.println("    PackageDeclaration In ClassVisitor");
-
-//        Integer[] array = new Integer[2];
-//        array[0] = 1;
-//        array[1] = 2;
-//        this.db.dbPush("PackageDeclaration", array, "PLZ WORK");
-
-
-//        System.out.println(n.toString());
-//        System.out.println("-------------
-// -------------------------");
         super.visit(n, arg);
     }
 
     @Override
     public void visit(ClassOrInterfaceDeclaration n, Void arg) {
-        this.className = n.getNameAsString();
-        System.out.println("Class Name: " + n.getName());
-        System.out.println("Class Implements: ");
-        for (ClassOrInterfaceType coi : n.getImplementedTypes()) {
-            System.out.println(coi.getName());
-        }
+
+        String[] lines = n.toString().split("\r\n|\r|\n");
+
+        this.c.setClassLength(lines.length);
+        this.c.setClassName(n.getNameAsString());
+        this.c.setIsInterface(n.isInterface());
+
+//        System.out.println("Class Name: " + n.getName());
+//        System.out.println("Class Implements: ");
+//        for (ClassOrInterfaceType coi : n.getImplementedTypes()) {
+//            System.out.println(coi.getName());
+//        }
+
         super.visit(n, arg);
     }
 
