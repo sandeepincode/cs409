@@ -26,10 +26,12 @@ public class Runner {
 
         // Can multiple files
         files.add("src/Mock/test.java");
+        files.add("src/Mock/test2.java");
+
 
         for (String file : files) {
 
-            JavaFile javaFile = new JavaFile();
+            JavaFile javaFile = new JavaFile(file);
 
             FileInputStream in = new FileInputStream(file);
             CompilationUnit cu = JavaParser.parse(in);
@@ -40,6 +42,7 @@ public class Runner {
 
             // Run tests internally and create test suites to determine the results
             testSuite = new TestSuite(javaFile);
+
             testSuite.runClassTests();
             testSuite.runMethodTests();
 
@@ -53,7 +56,10 @@ public class Runner {
 
         for (JavaFile cd : db.dbPull()) {
             System.out.println("=========================");
+
             System.out.println("    Class: " + cd.getClassName());
+            System.out.println("    Path: " + cd.getPath());
+
             System.out.println("=========================");
             printer.prettyPrint(cd.getErrorLog());
         }

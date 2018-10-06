@@ -4,6 +4,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 
 public class Method {
+
     private NodeList<Parameter> parameters;
     private String name;
     private int length;

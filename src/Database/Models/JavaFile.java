@@ -11,13 +11,19 @@ public class JavaFile {
     private String className;
     private boolean isInterface;
     private int classLength;
+    private String path;
 
-    public JavaFile() {
+    public JavaFile(String path) {
+        this.path = path;
         this.isInterface = false;
         this.className = null;
         this.classLength = 0;
         this.errorLog = new ArrayList<>();
         this.methods = new ArrayList<>();
+    }
+
+    public String getPath () {
+        return path;
     }
 
     public String getClassName() {

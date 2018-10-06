@@ -4,7 +4,7 @@ import Detectors.Class.*;
 public class InspectClass {
 
     private LargeClass length;
-    private int LENGTH_LIMIT = 300;
+    private int LENGTH_LIMIT = 50; //CLASS LENGTH
 
     public InspectClass () {
         this.length = new LargeClass(this.LENGTH_LIMIT);

@@ -6,7 +6,8 @@ public class InspectMethod {
     private LargeMethod length;
     private LargeParamList paramCount;
 
-    private int LENGTH_LIMIT = 20;
+    private int LENGTH_LIMIT = 9;
+
     private int PARAM_LIMIT = 2;
 
     public InspectMethod () {
