@@ -46,7 +46,7 @@ public class Log {
                 "Class: " + this.className + "\n" +
                         "Error: " + this.error + "\n" +
                         "Data: " + this.data + "\n" +
-                        "Issue Descovered When Inspecting: " + this.inpsecting
+                        "Issue Discovered When Inspecting: " + this.inpsecting + "\n"
         );
     }
 }

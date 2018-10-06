@@ -52,15 +52,15 @@ public class Runner {
         }
 
         // Finally print linter results
-        System.out.println("D33P-LINT: ");
+        System.out.println("\n=========================");
+        System.out.println("        D33P-LINT: ");
+        System.out.println("=========================\n");
 
         for (JavaFile cd : db.dbPull()) {
-            System.out.println("=========================");
-
+            System.out.println("\n=========================");
             System.out.println("    Class: " + cd.getClassName());
             System.out.println("    Path: " + cd.getPath());
-
-            System.out.println("=========================");
+            System.out.println("=========================\n");
             printer.prettyPrint(cd.getErrorLog());
         }
 
