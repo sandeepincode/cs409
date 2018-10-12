@@ -1,10 +1,12 @@
 import Database.Log;
 import Database.Models.JavaFile;
-import Database.Models.Method;
 import Detectors.InspectClass;
 import Detectors.InspectMethod;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TestSuite {
 
@@ -22,6 +24,7 @@ public class TestSuite {
     public void runClassTests() {
         String error;
         String inspecting = "Class";
+
         if (!inspectClass.inspectLength(this.javaFile.getClassLength())) {
             error = "Bad news, looks like this class is the line limit of: " + inspectClass.getLengthLimit();
             this.javaFile.addErrorLog(
@@ -33,34 +36,65 @@ public class TestSuite {
                     )
             );
         }
+
     }
 
     public void runMethodTests() {
         String error;
-        for (Method m : this.javaFile.getMethods()) {
-            String inspecting = "Method: " + m.getName();
-            if (!inspectMethod.length(m.getLength())) {
+        for (MethodDeclaration m : this.javaFile.getMethods()) {
+
+            String inspecting = "Method: " + m.getNameAsString();
+            int methodLength = m.toString().split("\r\n|\r|\n").length;
+
+            //  CHECK METHOD LENGTH
+            if (!inspectMethod.length(methodLength)) {
                 error = "Bad news, looks like this method is too large, we recommend a limit of: " + inspectMethod.getLengthLimit();
                 this.javaFile.addErrorLog(
                         new Log(
                                 this.javaFile.getClassName(),
                                 error,
-                                "",
+                                "Length Calculated: " + methodLength,
                                 inspecting
                         )
                 );
             }
-            if (!inspectMethod.paramCount(m.getParamaters().size())) {
+
+            // CHECK PARAMETERS
+            if (!inspectMethod.paramCount(m.getParameters().size())) {
                 error = "Bad news, looks like this method has too many parameters, we recommend a limit of: " + inspectMethod.getParamLimit();
                 this.javaFile.addErrorLog(
                         new Log(
                                 this.javaFile.getClassName(),
                                 error,
-                                m.getParamaters().toString(),
+                                m.getParameters().toString(),
                                 inspecting
                         )
                 );
             }
+
+            // Check Switch Statement
+            System.out.println(
+                    "+++++++++++++++++"
+            );
+
+            m.getBody().get().getStatements().forEach(l-> l.isSwitchStmt())
+            m.getBody().get().getStatements().stream().f
+
+
+            System.out.println(
+                    m.getBody().filter(l -> l.isSwitchEntryStmt())
+            );
+            System.out.println(
+                    m.getBody().filter(l -> l.isSwitchStmt())
+            );
+            System.out.println(
+                    "-------------------"
+            );
+
+//            if (m.getBody().filter(l -> l.isSwitchStmt()) ) {
+//
+//            }
+
         }
     }
 }

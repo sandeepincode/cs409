@@ -1,13 +1,10 @@
 package Visitors.Method;
 
 import Database.Models.JavaFile;
-import Database.Models.Method;
 import Detectors.Methods.LargeParamList;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntryStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
@@ -28,51 +25,32 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
 //        System.out.println(n.toString());
 
         // use to check that we have a break
-        n.getStatements().forEach(l -> System.out.println(l));
-
+        // n.getStatements().forEach(l -> System.out.println(l));
         super.visit(n, arg);
     }
 
     @Override
     public void visit(SwitchStmt n, Void arg) {
-//        System.out.println(n.toString());
         super.visit(n, arg);
     }
 
 
     @Override
     public void visit(MethodDeclaration n, Void arg) {
-
-        String[] lines = n.toString().split("\r\n|\r|\n");
-        int length = lines.length;
-        String methodName = n.getNameAsString();
-        NodeList<Parameter> parameters = n.getParameters();
-
-
-
-        System.out.println(
-                "================="
-        );
-        System.out.println(
-                n.getBody().filter(l -> l.isSwitchEntryStmt())
-        );
-        System.out.println(
-                n.getBody().filter(l -> l.isSwitchStmt())
-        );
-        System.out.println(
-                "================="
-        );
-
-
-        this.c.addMethods(
-                new Method(
-                        methodName,
-                        length,
-                        parameters
-                ));
-
+//        System.out.println(
+//                "================="
+//        );
+//        System.out.println(
+//                n.getBody().filter(l -> l.isSwitchEntryStmt())
+//        );
+//        System.out.println(
+//                n.getBody().filter(l -> l.isSwitchStmt())
+//        );
+//        System.out.println(
+//                "================="
+//        );
+        this.c.addMethods(n);
         super.visit(n, arg);
-
 //        System.out.println("+");
 //        System.out.println("Method Name: " + n.getNameAsString());
 //

@@ -44,25 +44,25 @@ public class Runner {
             testSuite = new TestSuite(javaFile);
 
             // testSuite.runClassTests();
-            // testSuite.runMethodTests();
+            testSuite.runMethodTests();
 
             // Push the java file to a database
             db.dbPush(javaFile);
 
         }
 
-//        // Finally print linter results
-//        System.out.println("\n=========================");
-//        System.out.println("        D33P-LINT: ");
-//        System.out.println("=========================\n");
-//
-//        for (JavaFile cd : db.dbPull()) {
-//            System.out.println("\n=========================");
-//            System.out.println("    Class: " + cd.getClassName());
-//            System.out.println("    Path: " + cd.getPath());
-//            System.out.println("=========================\n");
-//            printer.prettyPrint(cd.getErrorLog());
-//        }
+        // Finally print linter results
+        System.out.println("\n=========================");
+        System.out.println("        D33P-LINT: ");
+        System.out.println("=========================\n");
+
+        for (JavaFile cd : db.dbPull()) {
+            System.out.println("\n=========================");
+            System.out.println("    Class: " + cd.getClassName());
+            System.out.println("    Path: " + cd.getPath());
+            System.out.println("=========================\n");
+            printer.prettyPrint(cd.getErrorLog());
+        }
 
     }
 }
