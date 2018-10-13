@@ -74,18 +74,34 @@ public class TestSuite {
             }
 
             // CHECK SWITCH STATEMENT
-            m.getBody().get().getStatements().forEach(l -> {
-                boolean result = inspectMethod.switchStatement(l);
-                if (!result) {
-                    this.javaFile.addErrorLog(
-                            new Log(
-                                    this.javaFile.getClassName(),
-                                    "Switch Statement Is: ",
-                                    l.toString(),
-                                    inspecting
-                            )
-                    );
-                }
+//            m.getBody().get().getStatements().forEach(l -> {
+//                boolean result = inspectMethod.switchStatement(l);
+//                if (!result) {
+//                    this.javaFile.addErrorLog(
+//                            new Log(
+//                                    this.javaFile.getClassName(),
+//                                    "Switch Statement Is: ",
+//                                    l.toString(),
+//                                    inspecting
+//                            )
+//                    );
+//                }
+//            });
+
+            // Check inside method for dead code
+            // For each parameter check its used
+
+            System.out.println(m.getNameAsString() + " : " + m.getParameters() + "\n" + m.getBody() + "\n");
+
+            m.getParameters().forEach(p -> {
+
+                // Check declared variables are used
+                System.out.println(m.getBody().toString().contains(p.toString()));
+//                m.getBody().get().getStatements().forEach(l -> {
+//                    System.out.println(l.toString().contains(p.toString()));
+//                    System.out.println(l + "\n");
+//                });
+
             });
 
         }
