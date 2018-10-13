@@ -25,6 +25,7 @@ public class test {
     /* Assign the salary to the variable	salary.*/
     public void empSalary(double empSalary, int nandos, int fake) {
         switch (nandos) {
+            case 6:
             case 5:
                 empSalary = 23;
                 break;

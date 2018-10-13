@@ -24,11 +24,13 @@ public class Runner {
 
         ArrayList<String> files = new ArrayList<>();
 
-        /***********Config*****************/
+        ////////////////////////////////////////
+
         boolean print = false;
         files.add("src/Mock/test.java");
         // files.add("src/Mock/test2.java");
-        /*********************************/
+
+        ////////////////////////////////////////
 
 
         for (String file : files) {

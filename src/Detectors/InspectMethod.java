@@ -2,7 +2,6 @@ package Detectors;
 
 import Detectors.Methods.*;
 import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.SwitchStmt;
 
 public class InspectMethod {
 
@@ -12,11 +11,12 @@ public class InspectMethod {
 
     private int LENGTH_LIMIT = 9;
     private int PARAM_LIMIT = 2;
+    private int STATEMENT_LIMIT = 2;
 
     public InspectMethod() {
         this.length = new LargeMethod(this.LENGTH_LIMIT);
         this.paramCount = new LargeParamList(this.PARAM_LIMIT);
-        this.switchCaseChecker = new SwitchCaseChecker();
+        this.switchCaseChecker = new SwitchCaseChecker(this.STATEMENT_LIMIT);
     }
 
     public int getParamLimit() {

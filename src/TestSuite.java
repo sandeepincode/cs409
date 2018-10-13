@@ -80,7 +80,7 @@ public class TestSuite {
                     this.javaFile.addErrorLog(
                             new Log(
                                     this.javaFile.getClassName(),
-                                    "Switch Statement is ",
+                                    "Switch Statement Is: ",
                                     l.toString(),
                                     inspecting
                             )
