@@ -5,6 +5,7 @@ import Detectors.InspectMethod;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.stmt.SwitchStmt;
 
 import java.util.Arrays;
 
@@ -72,28 +73,20 @@ public class TestSuite {
                 );
             }
 
-            // Check Switch Statement
-            System.out.println(
-                    "+++++++++++++++++"
-            );
-
-            m.getBody().get().getStatements().forEach(l-> l.isSwitchStmt())
-            m.getBody().get().getStatements().stream().f
-
-
-            System.out.println(
-                    m.getBody().filter(l -> l.isSwitchEntryStmt())
-            );
-            System.out.println(
-                    m.getBody().filter(l -> l.isSwitchStmt())
-            );
-            System.out.println(
-                    "-------------------"
-            );
-
-//            if (m.getBody().filter(l -> l.isSwitchStmt()) ) {
-//
-//            }
+            // CHECK SWITCH STATEMENT
+            m.getBody().get().getStatements().forEach(l -> {
+                boolean result = inspectMethod.switchStatement(l);
+                if (!result) {
+                    this.javaFile.addErrorLog(
+                            new Log(
+                                    this.javaFile.getClassName(),
+                                    "Switch Statement is ",
+                                    l.toString(),
+                                    inspecting
+                            )
+                    );
+                }
+            });
 
         }
     }

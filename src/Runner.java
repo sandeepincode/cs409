@@ -24,9 +24,11 @@ public class Runner {
 
         ArrayList<String> files = new ArrayList<>();
 
-        // Can multiple files
+        /***********Config*****************/
+        boolean print = false;
         files.add("src/Mock/test.java");
         // files.add("src/Mock/test2.java");
+        /*********************************/
 
 
         for (String file : files) {
@@ -52,16 +54,18 @@ public class Runner {
         }
 
         // Finally print linter results
-        System.out.println("\n=========================");
-        System.out.println("        D33P-LINT: ");
-        System.out.println("=========================\n");
-
-        for (JavaFile cd : db.dbPull()) {
+        if (print) {
             System.out.println("\n=========================");
-            System.out.println("    Class: " + cd.getClassName());
-            System.out.println("    Path: " + cd.getPath());
+            System.out.println("        D33P-LINT: ");
             System.out.println("=========================\n");
-            printer.prettyPrint(cd.getErrorLog());
+
+            for (JavaFile cd : db.dbPull()) {
+                System.out.println("\n=========================");
+                System.out.println("    Class: " + cd.getClassName());
+                System.out.println("    Path: " + cd.getPath());
+                System.out.println("=========================\n");
+                printer.prettyPrint(cd.getErrorLog());
+            }
         }
 
     }

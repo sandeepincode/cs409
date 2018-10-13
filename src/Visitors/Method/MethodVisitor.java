@@ -12,12 +12,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 public class MethodVisitor extends VoidVisitorAdapter<Void> {
 
     private JavaFile c;
-    private LargeParamList paramCheck;
 
     public MethodVisitor(JavaFile c) {
         this.c = c;
-        int PARAM_LIMIT = 2;
-        this.paramCheck = new LargeParamList(PARAM_LIMIT);
     }
 
     @Override
@@ -25,7 +22,7 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
 //        System.out.println(n.toString());
 
         // use to check that we have a break
-        // n.getStatements().forEach(l -> System.out.println(l));
+         // n.getStatements().forEach(l -> System.out.println(l));
         super.visit(n, arg);
     }
 
@@ -74,11 +71,8 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
 //        String className = "Test class name";
 //        String method = n.getNameAsString();
 //        String error = "";
-
-
 //        System.out.println("++++++++++++++++++++++++++++++++++");
 //        System.out.println(n.toString());
 //        System.out.println("------------------------------------");
-
     }
 }
