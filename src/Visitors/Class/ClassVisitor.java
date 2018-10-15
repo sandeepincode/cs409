@@ -39,13 +39,13 @@ public class ClassVisitor extends VoidVisitorAdapter<Void> {
     @Override
     public void visit(FieldDeclaration n, Void arg) {
 //        System.out.println("++++++++++++++++++++++++++++++++++++++");
-        // System.out.println("    FieldDeclaration In ClassVisitor");
-
+//         System.out.println("    FieldDeclaration In ClassVisitor");
+//
 //        Integer[] array = new Integer[2];
 //        array[0] = 3;
 //        array[1] = 4;
 //        this.db.dbPush("FieldDeclaration", array, "PLZ WORK");
-
+//
 //        System.out.println(n.toString());
 //        System.out.println("--------------------------------------");
         super.visit(n, arg);

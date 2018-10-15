@@ -89,8 +89,8 @@ public class TestSuite {
 //            });
 
             // Check inside method for dead code
-            // For each parameter check its used
 
+            // For each parameter check its used
             System.out.println(m.getNameAsString() + " : " + m.getParameters() + "\n" + m.getBody() + "\n");
 
             m.getParameters().forEach(p -> {

@@ -10,13 +10,13 @@ public class InspectMethod {
     private SwitchCaseChecker switchCaseChecker;
 
     private int LENGTH_LIMIT = 9;
-    private int PARAM_LIMIT = 2;
-    private int STATEMENT_LIMIT = 2;
+    private int PARAM_LIMIT = 5;
+    private int MIN_STATEMENT_LIMIT = 3;
 
     public InspectMethod() {
         this.length = new LargeMethod(this.LENGTH_LIMIT);
         this.paramCount = new LargeParamList(this.PARAM_LIMIT);
-        this.switchCaseChecker = new SwitchCaseChecker(this.STATEMENT_LIMIT);
+        this.switchCaseChecker = new SwitchCaseChecker(this.MIN_STATEMENT_LIMIT);
     }
 
     public int getParamLimit() {

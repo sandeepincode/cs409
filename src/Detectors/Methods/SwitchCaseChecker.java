@@ -34,9 +34,7 @@ public class SwitchCaseChecker {
                 // System.out.println(l.getEnd().get());
 
                 System.out.println(l.getLabel().getClass().getTypeName());
-
                 System.out.println(l.getStatements());
-
                 System.out.println("ENTRY: " + l.toString());
 
             });
