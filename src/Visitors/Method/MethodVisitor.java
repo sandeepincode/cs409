@@ -1,10 +1,8 @@
 package Visitors.Method;
 
 import Database.Models.JavaFile;
-import Detectors.Methods.LargeParamList;
-import com.github.javaparser.ast.NodeList;
+import Visitors.Statement.StatementVisitor;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.SwitchEntryStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;

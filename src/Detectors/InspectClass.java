@@ -4,13 +4,13 @@ import Detectors.Class.*;
 public class InspectClass {
 
     private LargeClass length;
-    private int LENGTH_LIMIT = 50; //CLASS LENGTH
+    private int STATEMENT_LIMIT = 100; //CLASS LENGTH
 
     public InspectClass () {
-        this.length = new LargeClass(this.LENGTH_LIMIT);
+        this.length = new LargeClass(this.STATEMENT_LIMIT);
     }
     public int getLengthLimit() {
-        return this.LENGTH_LIMIT;
+        return this.STATEMENT_LIMIT;
     }
     public boolean inspectLength (int length) {
         return this.length.validate(length);

@@ -2,11 +2,11 @@ import Database.Log;
 import Database.Models.JavaFile;
 import Detectors.InspectClass;
 import Detectors.InspectMethod;
+import Visitors.Statement.StatementVisitor;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.SwitchStmt;
-
 import java.util.Arrays;
 
 public class TestSuite {
@@ -48,7 +48,10 @@ public class TestSuite {
             int methodLength = m.toString().split("\r\n|\r|\n").length;
 
             //  CHECK METHOD LENGTH
-            if (!inspectMethod.length(methodLength)) {
+            StatementVisitor statementVisitor = new StatementVisitor();
+            m.accept(statementVisitor, null);
+
+            if (!inspectMethod.length(statementVisitor.getStatementCount())) {
                 error = "Bad news, looks like this method is too large, we recommend a limit of: " + inspectMethod.getLengthLimit();
                 this.javaFile.addErrorLog(
                         new Log(
