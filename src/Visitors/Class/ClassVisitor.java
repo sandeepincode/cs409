@@ -9,25 +9,22 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 public class ClassVisitor extends VoidVisitorAdapter<Void> {
 
     private JavaFile c;
+    private String className;
 
-    public ClassVisitor(JavaFile c) {
+    public ClassVisitor(JavaFile c, String className) {
         this.c = c;
-    }
-
-    @Override
-    public void visit(PackageDeclaration n, Void arg) {
-        super.visit(n, arg);
+        this.className = className;
     }
 
     @Override
     public void visit(ClassOrInterfaceDeclaration n, Void arg) {
-
-        StatementVisitor statementVisitor = new StatementVisitor();
-
-        n.accept(statementVisitor, arg);
-        this.c.setClassName(n.getNameAsString());
-        this.c.setClassLength(statementVisitor.getStatementCount());
-        this.c.setIsInterface(n.isInterface());
+        if (n.getNameAsString().equals(className)) {
+            StatementVisitor statementVisitor = new StatementVisitor();
+            n.accept(statementVisitor, arg);
+            this.c.setClassName(n.getNameAsString());
+            this.c.setClassLength(statementVisitor.getStatementCount());
+            this.c.setIsInterface(n.isInterface());
+        }
         super.visit(n, arg);
     }
 

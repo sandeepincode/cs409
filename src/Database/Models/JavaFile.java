@@ -1,5 +1,7 @@
 package Database.Models;
+
 import java.util.ArrayList;
+
 import Database.Log;
 
 

@@ -2,12 +2,15 @@ import Database.Database;
 import Database.Models.JavaFile;
 
 import Util.Printer;
+import Visitors.Expressions.ExpressionVisitor;
 import Visitors.Method.MethodVisitor;
 import Visitors.Class.ClassVisitor;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
@@ -21,37 +24,46 @@ public class Runner {
 
         db = new Database();
         printer = new Printer();
-
-        ArrayList<String> files = new ArrayList<>();
-
-        ////////////////////////////////////////
         boolean print = false;
-         // files.add("Mock/test.java");
-        files.add("Mock/test2.java");
-        ////////////////////////////////////////
+
+
+        // move to util
+        ArrayList<String> files = new ArrayList<>();
+        File dir = new File("Mock");
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (File path : directoryListing) {
+                files.add(path.toString());
+            }
+        }
+
 
         // Look out for nested classes
-
         for (String file : files) {
-
-            JavaFile javaFile = new JavaFile(file);
 
             FileInputStream in = new FileInputStream(file);
             CompilationUnit cu = JavaParser.parse(in);
-
             // Get information and populate class object
-            cu.accept(new ClassVisitor(javaFile), null);
-            cu.accept(new MethodVisitor(javaFile), null);
 
-            // Run tests internally and create test suites to determine the results
-            testSuite = new TestSuite(javaFile);
+            cu.findAll(ClassOrInterfaceDeclaration.class).forEach(f->{
 
-            // testSuite.runClassTests();
-            testSuite.runMethodTests();
+                System.out.println("Runner Says: " + f.getNameAsString());
+                JavaFile javaFile = new JavaFile(file);
 
-            // Push the java file to a database
-            db.dbPush(javaFile);
+                // Creating the class
+                cu.accept(new ClassVisitor(javaFile, f.getNameAsString()), null);
 
+                // Creating the method
+                cu.accept(new MethodVisitor(javaFile), null);
+
+                // Run tests internally and create test suites to determine the results
+                // testSuite = new TestSuite(javaFile);
+                // testSuite.runClassTests();
+                //testSuite.runMethodTests();
+
+                // Push the java file to a database
+                db.dbPush(javaFile);
+            });
         }
 
         // Finally print linter results
