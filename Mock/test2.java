@@ -24,6 +24,10 @@ public class test2 {
 
     /* Assign the salary to the variable	salary.*/
     public void empSalary(double empSalary, int nandos, int fake, int more, int anotherone, int test) {
+        int String = 0;
+
+        empSalary.getSomething().hashcode().getSomethingElse().toString();
+
         switch (nandos) {
             case 5:
                 empSalary = 23;
@@ -33,7 +37,7 @@ public class test2 {
                 break;
         }
         salary = empSalary;
-        if (salary <= 0) {
+        if (salary.getReady().getA() <= 0) {
             salary = 0;
         }
     }

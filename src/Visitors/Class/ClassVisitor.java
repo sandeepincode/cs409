@@ -25,7 +25,6 @@ public class ClassVisitor extends VoidVisitorAdapter<Void> {
         StatementVisitor statementVisitor = new StatementVisitor();
 
         n.accept(statementVisitor, arg);
-//        System.out.println("Statements in class visitor: " + statementVisitor.getStatementCount());
         this.c.setClassName(n.getNameAsString());
         this.c.setClassLength(statementVisitor.getStatementCount());
         this.c.setIsInterface(n.isInterface());

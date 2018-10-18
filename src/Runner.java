@@ -25,13 +25,12 @@ public class Runner {
         ArrayList<String> files = new ArrayList<>();
 
         ////////////////////////////////////////
-
-        boolean print = true;
-        // files.add("src/Mock/test.java");
-         files.add("src/Mock/test2.java");
-
+        boolean print = false;
+         // files.add("Mock/test.java");
+        files.add("Mock/test2.java");
         ////////////////////////////////////////
 
+        // Look out for nested classes
 
         for (String file : files) {
 
