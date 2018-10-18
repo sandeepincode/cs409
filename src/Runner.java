@@ -26,9 +26,9 @@ public class Runner {
 
         ////////////////////////////////////////
 
-        boolean print = false;
-        files.add("src/Mock/test.java");
-        // files.add("src/Mock/test2.java");
+        boolean print = true;
+        // files.add("src/Mock/test.java");
+         files.add("src/Mock/test2.java");
 
         ////////////////////////////////////////
 
@@ -59,7 +59,7 @@ public class Runner {
         if (print) {
             System.out.println("\n=========================");
             System.out.println("        D33P-LINT: ");
-            System.out.println("=========================\n");
+            System.out.println("=========================");
 
             for (JavaFile cd : db.dbPull()) {
                 System.out.println("\n=========================");
