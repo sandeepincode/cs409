@@ -44,9 +44,9 @@ public class Log {
     public String toString() {
         return (
                 "Class: " + this.className + "\n" +
+                        "Inspecting " + this.inpsecting + "\n" +
                         "Error: " + this.error + "\n" +
-                        "Data: " + this.data + "\n" +
-                        "Issue Discovered When Inspecting: " + this.inpsecting + "\n"
+                        "Data: " + this.data + "\n"
         );
     }
 }

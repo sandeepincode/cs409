@@ -18,7 +18,9 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MethodVisitor extends VoidVisitorAdapter<Void> {
@@ -57,20 +59,19 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
         n.accept(expressionVisitor, null);
 
         int length = statementVisitor.getStatementCount();
+
         String methodName = n.getNameAsString();
-        NodeList messageChain = expressionVisitor.getMessageChain();
-
-        if (messageChain.size() >= 3) {
-            System.out.println(messageChain);
-        }
-
         NodeList<Parameter> parameters = n.getParameters();
+        HashMap messageChain = expressionVisitor.getMessageChain();
+
 
         Method m = new Method(
                 methodName,
                 length,
                 parameters
         );
+
+        m.setExpression(messageChain);
 
         this.c.addMethod(m);
         super.visit(n, arg);

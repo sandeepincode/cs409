@@ -14,6 +14,7 @@ public class test {
 
     // Assign the age of the Employee  to the variable age.
     public void empAge(int empAge) {
+        Extractor m = new Extractor();
         age = empAge;
     }
 

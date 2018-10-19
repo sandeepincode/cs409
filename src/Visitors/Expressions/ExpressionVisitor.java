@@ -6,19 +6,23 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ExpressionVisitor extends VoidVisitorAdapter<Void> {
 
     public NodeList results;
+    public HashMap<String, NodeList> messageChains;
 
-    public ExpressionVisitor(){
+    public ExpressionVisitor() {
+        this.messageChains = new HashMap<>();
         this.results = new NodeList();
     }
 
-    public NodeList getMessageChain() {
-        return this.results;
+    public HashMap getMessageChain() {
+        return this.messageChains;
     }
 
     @Override
@@ -28,7 +32,7 @@ public class ExpressionVisitor extends VoidVisitorAdapter<Void> {
             AtomicReference<Node> messageChain = new AtomicReference<>(g.getChildNodes().get(0));
             results = new NodeList();
             results.add(g.getChildNodes().get(g.getChildNodes().size() - 1));
-            for (int i = 0; i < 5; i += 1) { // Will go 5 time down,
+            for (int i = 0; i < 10; i += 1) { // Will go 5 time down,
                 messageChain.get().getChildNodes().forEach(l -> {
                     if (l.getChildNodes().size() > 0) {
                         messageChain.set(l);
@@ -38,10 +42,7 @@ public class ExpressionVisitor extends VoidVisitorAdapter<Void> {
                     }
                 });
             }
-            if (results.size() > 3) {
-                System.out.println(results);
-                System.out.println("Too Long: " + g.toString());
-            }
+            messageChains.put(g.toString(), results);
         }
     }
 }

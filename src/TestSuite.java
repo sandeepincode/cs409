@@ -4,12 +4,14 @@ import Database.Models.Method;
 import Detectors.InspectClass;
 import Detectors.InspectMethod;
 import Visitors.Statement.StatementVisitor;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class TestSuite {
 
@@ -92,7 +94,24 @@ public class TestSuite {
                 );
             }
 
-            // CHECK SWITCH STATEMENT
+            // CHECK EXPRESSIONS
+            HashMap map = m.getExpressions();
+            map.keySet().forEach(expression -> {
+
+                NodeList messageChain = (NodeList) map.get(expression);
+                int messageChainCount = messageChain.size();
+
+                if (inspectMethod.checkMessageChain(messageChainCount)) {
+                    this.javaFile.addErrorLog(
+                            new Log(
+                                    className,
+                                    "Bad news, this expression is too long we don't recommend anything more than " + inspectMethod.getMessageChainLength() + " expressions",
+                                    "Expression: " + expression.toString(),
+                                    inspecting
+                            )
+                    );
+                }
+            });
         }
     }
 }

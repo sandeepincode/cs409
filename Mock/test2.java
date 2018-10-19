@@ -40,6 +40,8 @@ public class test2 {
         if (salary.getReady().getA() <= 0) {
             salary = 0;
         }
+
+        salary.getReady().getB();
     }
 
     /* Print the Employee details */

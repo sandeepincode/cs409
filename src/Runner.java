@@ -24,7 +24,7 @@ public class Runner {
 
         db = new Database();
         printer = new Printer();
-        boolean print = false;
+        boolean print = true;
 
 
         // move to util
@@ -37,7 +37,6 @@ public class Runner {
             }
         }
 
-
         // Look out for nested classes
         for (String file : files) {
 
@@ -47,7 +46,6 @@ public class Runner {
 
             cu.findAll(ClassOrInterfaceDeclaration.class).forEach(f->{
 
-                System.out.println("Runner Says: " + f.getNameAsString());
                 JavaFile javaFile = new JavaFile(file);
 
                 // Creating the class
@@ -57,9 +55,9 @@ public class Runner {
                 cu.accept(new MethodVisitor(javaFile), null);
 
                 // Run tests internally and create test suites to determine the results
-                // testSuite = new TestSuite(javaFile);
-                // testSuite.runClassTests();
-                //testSuite.runMethodTests();
+                testSuite = new TestSuite(javaFile);
+                testSuite.runClassTests();
+                testSuite.runMethodTests();
 
                 // Push the java file to a database
                 db.dbPush(javaFile);
@@ -77,7 +75,12 @@ public class Runner {
                 System.out.println("    Class: " + cd.getClassName());
                 System.out.println("    Path: " + cd.getPath());
                 System.out.println("=========================\n");
-                printer.prettyPrint(cd.getErrorLog());
+
+                if (cd.getErrorLog().size() > 0){
+                    printer.prettyPrint(cd.getErrorLog());
+                } else {
+                    System.out.println("Looooks Good to Me");
+                }
             }
         }
 
