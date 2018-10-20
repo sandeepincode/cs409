@@ -1,6 +1,5 @@
 package Mock;
 
-
 public class test3 {
 
     String name;
@@ -27,6 +26,7 @@ public class test3 {
 public class test4 {
     /* Print the Employee details */
     public void printEmployee() {
+        String x = Get.something().getTest().get();
         System.out.println("Name:"+ name );
         System.out.println("Age:" + age );
         System.out.println("Designation:" + designation );

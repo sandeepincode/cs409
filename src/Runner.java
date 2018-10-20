@@ -1,4 +1,5 @@
 import Database.Database;
+import Database.Log;
 import Database.Models.JavaFile;
 
 import Util.Printer;
@@ -10,10 +11,12 @@ import Visitors.Class.ClassVisitor;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Runner {
 
@@ -37,16 +40,29 @@ public class Runner {
             CompilationUnit cu = JavaParser.parse(in);
 
             cu.findAll(ClassOrInterfaceDeclaration.class).forEach(f -> {
+                 JavaFile javaFile = new JavaFile(file);
+                try {
 
-                JavaFile javaFile = new JavaFile(file);
+                    CompilationUnit innerClass = JavaParser.parse(f.toString());
 
-                cu.accept(new ClassVisitor(javaFile, f.getNameAsString()), null);
-                cu.accept(new MethodVisitor(javaFile), null);
+                    innerClass.accept(new ClassVisitor(javaFile), null);
+                    innerClass.accept(new MethodVisitor(javaFile), null);
 
-                testSuite = new TestSuite(javaFile);
-                testSuite.runClassTests();
-                testSuite.runMethodTests();
+                    testSuite = new TestSuite(javaFile);
+                    testSuite.runClassTests();
+                    testSuite.runMethodTests();
 
+
+                } catch (Exception e) {
+                    String className = "Unknown";
+                    javaFile.setClassName(className);
+                    javaFile.addErrorLog(new Log(
+                            className,
+                            "Invalid File Format",
+                            "Path: " + file,
+                            "Parse Error"
+                    ));
+                }
                 db.dbPush(javaFile);
             });
         }
@@ -55,7 +71,7 @@ public class Runner {
 
             System.out.println("\n=========================");
             System.out.println("    Java-Parser-Linter: ");
-            System.out.println("=========================");
+            System.out.println("==========================");
 
             // Results Inside The Java Files
             for (JavaFile cd : db.dbPull()) {
