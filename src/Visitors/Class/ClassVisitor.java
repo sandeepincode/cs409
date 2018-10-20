@@ -2,7 +2,6 @@ package Visitors.Class;
 
 import Database.Models.JavaFile;
 import Visitors.Statement.StatementVisitor;
-import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
@@ -23,7 +22,6 @@ public class ClassVisitor extends VoidVisitorAdapter<Void> {
             n.accept(statementVisitor, arg);
             this.c.setClassName(n.getNameAsString());
             this.c.setClassLength(statementVisitor.getStatementCount());
-            this.c.setIsInterface(n.isInterface());
         }
         super.visit(n, arg);
     }

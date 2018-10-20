@@ -4,11 +4,10 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Method {
     private NodeList<Parameter> parameters;
-    private HashMap expressions;
+    private ArrayList<String> expressions;
     private String name;
     private int length;
 
@@ -18,11 +17,11 @@ public class Method {
         this.parameters = parameters;
     }
 
-    public void setExpression(HashMap expressions) {
+    public void setExpression(ArrayList expressions) {
         this.expressions = expressions;
     }
 
-    public HashMap getExpressions() {
+    public ArrayList<String> getExpressions() {
         return this.expressions;
     }
 
@@ -33,7 +32,6 @@ public class Method {
     public String getName() {
         return this.name;
     }
-
 
     public int getLength() {
         return this.length;

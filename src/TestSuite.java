@@ -10,6 +10,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -36,7 +37,7 @@ public class TestSuite {
         if (!inspectClass.inspectLength(classLength)) {
 
             int recommendedClassLength = inspectClass.getLengthLimit();
-            error = "Bad news, looks like this class has too many statements, we recommend a limit of:" + recommendedClassLength;
+            error = "Long Class, looks like this class has too many statements, we recommend a limit of:" + recommendedClassLength;
 
             this.javaFile.addErrorLog(
                     new Log(
@@ -50,7 +51,6 @@ public class TestSuite {
     }
 
     public void runMethodTests() {
-        String error;
         for (Method m : this.javaFile.getMethods()) {
 
             String className = this.javaFile.getClassName();
@@ -60,17 +60,13 @@ public class TestSuite {
 
             int methodLength = m.getLength();
 
-            // Add more information about what information you have
-
             //  CHECK METHOD LENGTH
-            if (!inspectMethod.length(m.getLength())) {
-
+            if (!inspectMethod.validateMethodLength(m.getLength())) {
                 int recommendedMethodLength = inspectMethod.getLengthLimit();
-                error = "Bad news, looks like this method is too may statements, we recommend a limit of: " + recommendedMethodLength;
                 this.javaFile.addErrorLog(
                         new Log(
                                 className,
-                                error,
+                                "Long Method, looks like this method is too may statements, we recommend a limit of: " + recommendedMethodLength,
                                 "Statements Counted: " + methodLength,
                                 inspecting
                         )
@@ -79,15 +75,11 @@ public class TestSuite {
 
             // CHECK PARAMETERS
             NodeList<Parameter> parameters = m.getParameters();
-
-            if (!inspectMethod.paramCount(parameters.size())) {
-
-                error = "Bad news, looks like this method has too many parameters, we recommend a limit of: " + inspectMethod.getParamLimit();
-
+            if (!inspectMethod.validateParameterCount(parameters.size())) {
                 this.javaFile.addErrorLog(
                         new Log(
                                 className,
-                                error,
+                                "Long Parameter List, looks like this method has too many parameters, we recommend a limit of: " + inspectMethod.getParamLimit(),
                                 parameters.toString(),
                                 inspecting
                         )
@@ -95,23 +87,19 @@ public class TestSuite {
             }
 
             // CHECK EXPRESSIONS
-            HashMap map = m.getExpressions();
-            map.keySet().forEach(expression -> {
-
-                NodeList messageChain = (NodeList) map.get(expression);
-                int messageChainCount = messageChain.size();
-
-                if (inspectMethod.checkMessageChain(messageChainCount)) {
+            ArrayList messageChain = m.getExpressions();
+            if (messageChain.size() > 0) {
+                messageChain.forEach(expression -> {
                     this.javaFile.addErrorLog(
                             new Log(
                                     className,
-                                    "Bad news, this expression is too long we don't recommend anything more than " + inspectMethod.getMessageChainLength() + " expressions",
+                                    "Message Chain too long, should be less than " + inspectMethod.getMessageChainLength() + " expressions",
                                     "Expression: " + expression.toString(),
                                     inspecting
                             )
                     );
-                }
-            });
+                });
+            }
         }
     }
 }

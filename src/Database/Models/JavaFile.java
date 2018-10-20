@@ -10,13 +10,11 @@ public class JavaFile {
     private ArrayList<Log> errorLog;
     private ArrayList<Method> methods;
     private String className;
-    private boolean isInterface;
     private int classLength;
     private String path;
 
     public JavaFile(String path) {
         this.path = path;
-        this.isInterface = false;
         this.className = null;
         this.classLength = 0;
         this.errorLog = new ArrayList<>();
@@ -43,18 +41,6 @@ public class JavaFile {
         this.classLength = classLength;
     }
 
-    public boolean isInterface() {
-        return this.isInterface;
-    }
-
-    public void setIsInterface(boolean isInterface) {
-        this.isInterface = isInterface;
-    }
-
-    public int getMethodCount() {
-        return this.methods.size();
-    }
-
     public ArrayList<Log> getErrorLog() {
         return errorLog;
     }
@@ -69,12 +55,5 @@ public class JavaFile {
 
     public void addMethod(Method method) {
         this.methods.add(method);
-    }
-
-    // FINISH OFF //
-    public String toString() {
-        return (
-                ""
-        );
     }
 }
