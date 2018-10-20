@@ -13,10 +13,10 @@ import java.util.ArrayList;
 
 public class MethodVisitor extends VoidVisitorAdapter<Void> {
 
-    private JavaFile c;
+    private JavaFile javaFile;
 
-    public MethodVisitor(JavaFile c) {
-        this.c = c;
+    public MethodVisitor(JavaFile javaFile) {
+        this.javaFile = javaFile;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
 
         m.setExpression(messageChain);
 
-        this.c.addMethod(m);
+        this.javaFile.addMethod(m);
         super.visit(n, arg);
     }
 }

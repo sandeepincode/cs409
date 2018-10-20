@@ -3,15 +3,10 @@ import Database.Models.JavaFile;
 import Database.Models.Method;
 import Detectors.InspectClass;
 import Detectors.InspectMethod;
-import Visitors.Statement.StatementVisitor;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.stmt.SwitchStmt;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class TestSuite {
@@ -28,26 +23,41 @@ public class TestSuite {
     }
 
     public void runClassTests() {
-        String error;
         String className = this.javaFile.getClassName();
         String inspecting = "Class: " + className;
 
         int classLength = this.javaFile.getClassLength();
 
+        // CHECK CLASS LENGTH
         if (!inspectClass.inspectLength(classLength)) {
-
             int recommendedClassLength = inspectClass.getLengthLimit();
-            error = "Long Class, looks like this class has too many statements, we recommend a limit of:" + recommendedClassLength;
-
             this.javaFile.addErrorLog(
                     new Log(
                             className,
-                            error,
+                            "Long Class, looks like this class has too many statements, we recommend a limit of:" + recommendedClassLength,
                             "Statements Counted: " + classLength,
                             inspecting
                     )
             );
         }
+
+        // CHECK FOR TOO PRIMITIVE OBSESSION
+        HashMap<String, Integer> primitiveMap = this.javaFile.getFields();
+        primitiveMap.keySet().forEach(primitive -> {
+            int numberOfPrimitives = primitiveMap.get(primitive);
+            if (!inspectClass.validatePrimitive(numberOfPrimitives)) {
+                int recommendedPrimitiveCount = inspectClass.getPrimitiveLimit();
+                this.javaFile.addErrorLog(
+                        new Log(
+                                className,
+                                "Primitive Obession, you have too many primitives, we recommend a limit of: " + recommendedPrimitiveCount,
+                                " We found " + numberOfPrimitives + " " + primitive + "'s in this class.",
+                                "Fields"
+                        )
+                );
+            }
+        });
+
     }
 
     public void runMethodTests() {

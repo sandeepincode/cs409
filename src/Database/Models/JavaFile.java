@@ -1,12 +1,16 @@
 package Database.Models;
 
-import java.util.ArrayList;
-
 import Database.Log;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 
 public class JavaFile {
 
+    private HashMap<String, Integer> fields;
     private ArrayList<Log> errorLog;
     private ArrayList<Method> methods;
     private String className;
@@ -19,6 +23,16 @@ public class JavaFile {
         this.classLength = 0;
         this.errorLog = new ArrayList<>();
         this.methods = new ArrayList<>();
+        this.fields = new HashMap<>();
+    }
+
+    public HashMap<String, Integer> getFields() {
+        return fields;
+    }
+
+    public void addField(String field) {
+        Integer previousValue = this.fields.get(field);
+        this.fields.put(field, previousValue == null ? 1 : previousValue + 1);
     }
 
     public String getPath() {

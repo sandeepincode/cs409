@@ -11,12 +11,10 @@ import Visitors.Class.ClassVisitor;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Runner {
 
@@ -44,14 +42,12 @@ public class Runner {
                 try {
 
                     CompilationUnit innerClass = JavaParser.parse(f.toString());
-
                     innerClass.accept(new ClassVisitor(javaFile), null);
                     innerClass.accept(new MethodVisitor(javaFile), null);
 
                     testSuite = new TestSuite(javaFile);
                     testSuite.runClassTests();
                     testSuite.runMethodTests();
-
 
                 } catch (Exception e) {
                     String className = "Unknown";
@@ -73,7 +69,6 @@ public class Runner {
             System.out.println("    Java-Parser-Linter: ");
             System.out.println("==========================");
 
-            // Results Inside The Java Files
             for (JavaFile cd : db.dbPull()) {
                 if (cd.getErrorLog().size() > 0) {
                     System.out.println("\n=========================");
@@ -84,6 +79,5 @@ public class Runner {
                 }
             }
         }
-
     }
 }
