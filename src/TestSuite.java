@@ -58,6 +58,67 @@ public class TestSuite {
             }
         });
 
+        // CHECK FOR DATA CLUMPS
+        HashMap<Parameter, Integer> dataClumpMap = new HashMap<>();
+
+        this.javaFile.getMethods().forEach(method -> {
+            method.getParameters().forEach(parameter -> {
+                Integer previousValue = dataClumpMap.get(parameter);
+                dataClumpMap.put(parameter, previousValue == null ? 1 : previousValue + 1);
+            });
+        });
+
+        int variations = dataClumpMap.keySet().size();
+        if (!inspectClass.checkDataClump(variations)) {
+            this.javaFile.addErrorLog(
+                    new Log(
+                            className,
+                            "Data Clump, you are using " + variations + " different parameters, we recommend a cap at " + inspectClass.getDataClumpLimit() + " different type parameters",
+                            "Frequency of parameter against occurrence within this class is shown below\n" +dataClumpMap.toString(),
+                            inspecting
+                    )
+            );
+        }
+
+        // CHECK FOR LAZY CLASSES
+        int methodCount = this.javaFile.getMethods().size();
+        int fieldCount = this.javaFile.getFields().keySet().size();
+
+        if ( !inspectClass.isValid(methodCount, fieldCount) )  {
+            this.javaFile.addErrorLog(
+                    new Log(
+                            className,
+                            "Lazy Class, this class only has " + methodCount + " method(s) and " + fieldCount + " field(s)",
+                            "We expect a minimum of " + inspectClass.getMiniMethodCount() + " methods and " + inspectClass.getMiniFieldCount() + " fields",
+                            inspecting
+                    )
+            );
+        }
+
+        // CHECK FOR DATA CLASSES
+        HashMap<String, Boolean> dataClass = new HashMap<>();
+        this.javaFile.getMethods().forEach(method -> {
+            if (method.getSetter()){
+                dataClass.put(method.getName(), true);
+            }
+            if (method.getGetter()){
+                dataClass.put(method.getName(), true);
+            }
+        });
+
+        int numberOfMethods = this.javaFile.getMethods().size();
+        int numberOfGettersAndSetters = dataClass.values().size();
+
+        if ( inspectClass.isDataClass(numberOfMethods, numberOfGettersAndSetters)) {
+            this.javaFile.addErrorLog(
+                    new Log(
+                            className,
+                            "Data Class, this class only contains getters and setters",
+                            "We found " + numberOfMethods + " method(s) and " + numberOfGettersAndSetters + " method(s) are only getters or setters",
+                            inspecting
+                    )
+            );
+        }
     }
 
     public void runMethodTests() {

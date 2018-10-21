@@ -10,6 +10,7 @@ public class Method {
     private ArrayList<String> expressions;
     private String name;
     private int length;
+    private boolean isGetter, isSetter = false;
 
     public Method(String name, int length, NodeList<Parameter> parameters) {
         this.name = name;
@@ -27,6 +28,22 @@ public class Method {
 
     public NodeList<Parameter> getParameters() {
         return this.parameters;
+    }
+
+    public void isGetter() {
+        isGetter = true;
+    }
+
+    public boolean getGetter() {
+        return this.isGetter;
+    }
+
+    public void isSetter() {
+        isSetter = true;
+    }
+
+    public boolean getSetter() {
+        return this.isSetter;
     }
 
     public String getName() {

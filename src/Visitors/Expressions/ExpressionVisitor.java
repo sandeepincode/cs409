@@ -24,8 +24,11 @@ public class ExpressionVisitor extends VoidVisitorAdapter<Void> {
         if (g.getScope().isPresent()) {
             Optional<Expression> insiderExpression = g.getScope();
             if (insiderExpression.get().isMethodCallExpr()) {
-//                Optional<Expression> nextExpression = insiderExpression.get().asMethodCallExpr().getScope();
                 this.messageChains.add(g.toString());
+//                Optional<Expression> nextExpression = insiderExpression.get().asMethodCallExpr().getScope();
+//                if (nextExpression.get().isMethodCallExpr()) {
+//
+//                }
             }
         }
     }

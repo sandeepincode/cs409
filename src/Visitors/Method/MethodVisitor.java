@@ -7,6 +7,7 @@ import Visitors.Statement.StatementVisitor;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.ArrayList;
@@ -38,6 +39,15 @@ public class MethodVisitor extends VoidVisitorAdapter<Void> {
                 length,
                 parameters
         );
+
+
+        if (n.getName().getId().startsWith("get")) {
+            m.isGetter();
+        }
+
+        if (n.getName().getId().startsWith("set")) {
+            m.isSetter();
+        }
 
         m.setExpression(messageChain);
 
