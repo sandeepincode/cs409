@@ -7,7 +7,7 @@ public class Database {
     private ArrayList<JavaFile> Db;
 
     public Database() {
-        Db = new ArrayList<JavaFile>();
+        Db = new ArrayList<>();
     }
 
     public boolean dbPush(JavaFile c) {

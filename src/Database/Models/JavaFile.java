@@ -5,9 +5,6 @@ import Database.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
-
 public class JavaFile {
 
     private HashMap<String, Integer> fields;

@@ -1,5 +1,4 @@
 import Database.Database;
-import Database.Log;
 import Database.Models.JavaFile;
 
 import Util.Printer;
@@ -10,7 +9,7 @@ import Visitors.Class.ClassVisitor;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,32 +39,17 @@ public class Runner {
                 FileInputStream in = new FileInputStream(file);
                 CompilationUnit cu = JavaParser.parse(in);
 
-                cu.findAll(ClassOrInterfaceDeclaration.class).forEach(f -> {
-                    JavaFile javaFile = new JavaFile(file);
-                    try {
+                JavaFile javaFile = new JavaFile(file);
 
-                        CompilationUnit innerClass = JavaParser.parse(f.toString());
-                        innerClass.accept(new ClassVisitor(javaFile), null);
-                        innerClass.accept(new MethodVisitor(javaFile), null);
+                cu.accept(new ClassVisitor(javaFile), null);
+                cu.accept(new MethodVisitor(javaFile), null);
 
-                        testSuite = new TestSuite(javaFile);
-                        testSuite.runClassTests();
-                        testSuite.runMethodTests();
+                testSuite = new TestSuite(javaFile);
+                testSuite.runClassTests();
+                testSuite.runMethodTests();
 
-                    } catch (Exception e) {
-                        String className = "Unknown";
-                        javaFile.setClassName(className);
-                        javaFile.addErrorLog(new Log(
-                                className,
-                                "Invalid File Format",
-                                "Path: " + file,
-                                "Parse Error"
-                        ));
-                    }
-                    db.dbPush(javaFile);
-                });
+                db.dbPush(javaFile);
             }
-
             if (print) {
 
                 System.out.println("\n=========================");
