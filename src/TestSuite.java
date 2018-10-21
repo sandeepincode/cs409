@@ -7,6 +7,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class TestSuite {
@@ -44,8 +45,12 @@ public class TestSuite {
         // CHECK FOR TOO PRIMITIVE OBSESSION
         HashMap<String, Integer> primitiveMap = this.javaFile.getFields();
         primitiveMap.keySet().forEach(primitive -> {
+            String[] primitiveTypes = {
+                    "byte", "char", "short", "int", "long", "float", "double", "boolean", "void"
+            };
+            boolean isPrimitive = Arrays.stream(primitiveTypes).anyMatch(primitive::equals);
             int numberOfPrimitives = primitiveMap.get(primitive);
-            if (!inspectClass.validatePrimitive(numberOfPrimitives)) {
+            if (!inspectClass.validatePrimitive(numberOfPrimitives) && isPrimitive) {
                 int recommendedPrimitiveCount = inspectClass.getPrimitiveLimit();
                 this.javaFile.addErrorLog(
                         new Log(
@@ -74,7 +79,7 @@ public class TestSuite {
                     new Log(
                             className,
                             "Data Clump, you are using " + variations + " different parameters, we recommend a cap at " + inspectClass.getDataClumpLimit() + " different type parameters",
-                            "Frequency of parameter against occurrence within this class is shown below\n" +dataClumpMap.toString(),
+                            "Frequency of parameter against occurrence within this class is shown below\n" + dataClumpMap.toString(),
                             inspecting
                     )
             );
@@ -84,7 +89,7 @@ public class TestSuite {
         int methodCount = this.javaFile.getMethods().size();
         int fieldCount = this.javaFile.getFields().keySet().size();
 
-        if ( !inspectClass.isValid(methodCount, fieldCount) )  {
+        if (!inspectClass.isValid(methodCount, fieldCount)) {
             this.javaFile.addErrorLog(
                     new Log(
                             className,
@@ -98,10 +103,10 @@ public class TestSuite {
         // CHECK FOR DATA CLASSES
         HashMap<String, Boolean> dataClass = new HashMap<>();
         this.javaFile.getMethods().forEach(method -> {
-            if (method.getSetter()){
+            if (method.getSetter()) {
                 dataClass.put(method.getName(), true);
             }
-            if (method.getGetter()){
+            if (method.getGetter()) {
                 dataClass.put(method.getName(), true);
             }
         });
@@ -109,12 +114,12 @@ public class TestSuite {
         int numberOfMethods = this.javaFile.getMethods().size();
         int numberOfGettersAndSetters = dataClass.values().size();
 
-        if ( inspectClass.isDataClass(numberOfMethods, numberOfGettersAndSetters)) {
+        if (inspectClass.isDataClass(numberOfMethods, numberOfGettersAndSetters)) {
             this.javaFile.addErrorLog(
                     new Log(
                             className,
                             "Data Class, this class only contains getters and setters",
-                            "We found " + numberOfMethods + " method(s) and " + numberOfGettersAndSetters + " method(s) are only getters or setters",
+                            "We found " + numberOfMethods + " method(s) and " + numberOfGettersAndSetters + " of those method(s) are only getters or setters",
                             inspecting
                     )
             );
@@ -165,7 +170,7 @@ public class TestSuite {
                             new Log(
                                     className,
                                     "Message Chain too long, should be less than " + inspectMethod.getMessageChainLength() + " expressions",
-                                    "Expression: " + expression.toString(),
+                                    expression.toString(),
                                     inspecting
                             )
                     );

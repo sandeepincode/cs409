@@ -1,7 +1,5 @@
 package Detectors;
 
-import java.util.Arrays;
-
 public class InspectClass {
 
     private int STATEMENT_LIMIT = 100;

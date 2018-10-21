@@ -28,54 +28,58 @@ public class Runner {
         printer = new Printer();
         boolean print = true;
 
-        Parser p = new Parser();
-        p.parse(new File("Mock"));
-        ArrayList<String> files = p.getPaths();
+        // Add directories to args
+        for (String directory : args) {
 
-        for (String file : files) {
+            Parser p = new Parser();
+            p.parse(new File(directory));
+            ArrayList<String> files = p.getPaths();
 
-            FileInputStream in = new FileInputStream(file);
-            CompilationUnit cu = JavaParser.parse(in);
+            for (String file : files) {
 
-            cu.findAll(ClassOrInterfaceDeclaration.class).forEach(f -> {
-                 JavaFile javaFile = new JavaFile(file);
-                try {
+                FileInputStream in = new FileInputStream(file);
+                CompilationUnit cu = JavaParser.parse(in);
 
-                    CompilationUnit innerClass = JavaParser.parse(f.toString());
-                    innerClass.accept(new ClassVisitor(javaFile), null);
-                    innerClass.accept(new MethodVisitor(javaFile), null);
+                cu.findAll(ClassOrInterfaceDeclaration.class).forEach(f -> {
+                    JavaFile javaFile = new JavaFile(file);
+                    try {
 
-                    testSuite = new TestSuite(javaFile);
-                    testSuite.runClassTests();
-                    testSuite.runMethodTests();
+                        CompilationUnit innerClass = JavaParser.parse(f.toString());
+                        innerClass.accept(new ClassVisitor(javaFile), null);
+                        innerClass.accept(new MethodVisitor(javaFile), null);
 
-                } catch (Exception e) {
-                    String className = "Unknown";
-                    javaFile.setClassName(className);
-                    javaFile.addErrorLog(new Log(
-                            className,
-                            "Invalid File Format",
-                            "Path: " + file,
-                            "Parse Error"
-                    ));
-                }
-                db.dbPush(javaFile);
-            });
-        }
+                        testSuite = new TestSuite(javaFile);
+                        testSuite.runClassTests();
+                        testSuite.runMethodTests();
 
-        if (print) {
+                    } catch (Exception e) {
+                        String className = "Unknown";
+                        javaFile.setClassName(className);
+                        javaFile.addErrorLog(new Log(
+                                className,
+                                "Invalid File Format",
+                                "Path: " + file,
+                                "Parse Error"
+                        ));
+                    }
+                    db.dbPush(javaFile);
+                });
+            }
 
-            System.out.println("\n=========================");
-            System.out.println("    Java-Parser-Linter: ");
-            System.out.println("==========================");
+            if (print) {
 
-            for (JavaFile cd : db.dbPull()) {
-                if (cd.getErrorLog().size() > 0) {
-                    System.out.println("\n=========================");
-                    System.out.println("    Class: " + cd.getClassName());
-                    System.out.println("    Path: " + cd.getPath());
-                    System.out.println("=========================\n");
-                    printer.prettyPrint(cd.getErrorLog());
+                System.out.println("\n=========================");
+                System.out.println("    Java-Parser-Linter: ");
+                System.out.println("==========================");
+
+                for (JavaFile cd : db.dbPull()) {
+                    if (cd.getErrorLog().size() > 0) {
+                        System.out.println("\n=========================");
+                        System.out.println("    Class: " + cd.getClassName());
+                        System.out.println("    Path: " + cd.getPath());
+                        System.out.println("=========================\n");
+                        printer.prettyPrint(cd.getErrorLog());
+                    }
                 }
             }
         }
